@@ -23,10 +23,17 @@ const server = http.createServer(app);
 /**http와 ws를 같이 실행 */
 const wss = new WebSocketServer({ server });
 
-function handleConnection(socket) {
-    console.log(socket);
-}
+const sockets = [];
 
-wss.on("connection", handleConnection);
+wss.on("connection", (socket) => {
+    sockets.push(socket);
+    console.log("connected to Browser");
+    socket.on("close", () => console.log("disconnected from browser"));
+
+    socket.on("message", (message) => {
+        sockets.forEach((aSockets) => aSockets.send(message.toString()));
+    });
+    socket.send("hello!!!");
+});
 
 server.listen(3000, handleListen);
