@@ -44,12 +44,12 @@ function handleRoomSubmit(event) {
 
 form.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", () => {
-    addMessage("someone joined!");
+socket.on("welcome", (user) => {
+    addMessage(`${user} arrived!`);
 });
 
-socket.on("bye", () => {
-    addMessage("someone left ㅠㅠ");
+socket.on("bye", (left) => {
+    addMessage(`${left} left ㅠㅠ`);
 });
 
 socket.on("new_message", addMessage);
