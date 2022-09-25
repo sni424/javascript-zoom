@@ -30,8 +30,8 @@ function showRoom() {
     room.hidden = false;
     const h3 = room.querySelector("h3");
     h3.innerText = `Room ${roomName}`;
-    const form = room.querySelector("form");
-    form.addEventListener("submit", handleMessageSubmit);
+    const msgForm = room.querySelector("#msg");
+    msgForm.addEventListener("submit", handleMessageSubmit);
 }
 
 function handleRoomSubmit(event) {
