@@ -53,7 +53,6 @@ function handleRoomSubmit(event) {
 }
 
 roomForm.addEventListener("submit", handleRoomSubmit);
-
 socket.on("welcome", () => {
     addMessage("someone joind");
 });
