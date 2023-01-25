@@ -40,37 +40,25 @@ function publicRooms() {
 const sockets = [];
 
 wsServer.on("connection", (socket) => {
+    socket["nickname"] = "Anon";
     socket.onAny((event) => {
         console.log(`Socket Event: ${event}`);
     });
     socket.on("room", (roomName, done) => {
         socket.join(roomName);
         done(roomName);
-        socket.to(roomName).emit("welcome");
+        socket.to(roomName).emit("welcome", socket.nickname);
     });
     socket.on("user_message", (msg, room, done) => {
-        socket.to(room).emit("user_message", msg);
+        socket.to(room).emit("user_message", `${socket.nickname}: ${msg}`);
         done();
     });
     socket.on("disconnecting", () => {
-        socket.rooms.forEach((room) => socket.to(room).emit("bye"));
+        socket.rooms.forEach((room) =>
+            socket.to(room).emit("bye", socket.nickname)
+        );
     });
+    socket.on("nickname", (nickname) => (socket["nickname"] = nickname));
 });
-
-// wsServer.on("connection", (socket) => {
-//     sockets.push(socket);
-//     socket["nickname"] = "Anon";
-//     socket.on("close", () => console.log("Disconnected from the Browser ❌"));
-//     socket.on("message", (message) => {
-//         const newMessage = JSON.parse(message);
-//         if (newMessage.type === "new_message") {
-//             sockets.forEach((aSocket) =>
-//                 aSocket.send(`${socket.nickname}: ${newMessage.payload}`)
-//             );
-//         } else {
-//             socket["nickname"] = newMessage.payload;
-//         }
-//     });
-// });
 
 httpServer.listen(3000, handleListen);
