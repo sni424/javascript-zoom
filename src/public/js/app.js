@@ -3,7 +3,7 @@ const socket = io();
 // const socket = new WebSocket(`ws://${window.location.host}`);
 
 const welcome = document.getElementById("welcome");
-const messageList = welcome.querySelector("ul");
+const roomList = welcome.querySelector("ul");
 const roomForm = welcome.querySelector("form");
 const room = document.getElementById("room");
 const roomName = room.querySelector("h2");
@@ -62,3 +62,15 @@ socket.on("bye", (user) => {
 });
 
 socket.on("user_message", addMessage);
+
+socket.on("room_change", (rooms) => {
+    roomList.innerHTML = "";
+    if (rooms.length < 1) {
+        return;
+    }
+    rooms.forEach((room) => {
+        const li = document.createElement("li");
+        li.innerText = room;
+        roomList.append(li);
+    });
+});
