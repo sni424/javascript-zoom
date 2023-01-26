@@ -38,7 +38,7 @@ function showRoom(msg) {
     welcome.hidden = true;
     room.hidden = false;
     oldRoomName = msg;
-    roomName.innerText = msg;
+    roomName.innerText = `roomName ${oldRoomName}`;
 }
 
 function handleRoomSubmit(event) {
@@ -53,11 +53,13 @@ function handleRoomSubmit(event) {
 }
 
 roomForm.addEventListener("submit", handleRoomSubmit);
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, newCount) => {
+    roomName.innerText = `roomName: ${oldRoomName} (${newCount})`;
     addMessage(`${user} joind`);
 });
 
-socket.on("bye", (user) => {
+socket.on("bye", (user, newCount) => {
+    roomName.innerText = `roomName: ${oldRoomName} (${newCount})`;
     addMessage(`${user} Left`);
 });
 
