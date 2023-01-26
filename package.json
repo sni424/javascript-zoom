@@ -5,6 +5,7 @@
     "description": "Zoom Clone",
     "license": "ISC",
     "dependencies": {
+        "@socket.io/admin-ui": "^0.5.1",
         "express": "^4.18.1",
         "nodemon": "^2.0.19",
         "pug": "^3.0.2",
